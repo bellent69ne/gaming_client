@@ -1,21 +1,24 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 )
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("the web server address is expected as an argument")
-		os.Exit(1)
+		log.Fatal("the web server address is expected as an argument")
 	}
 
-	gmClient := &Client{os.Args[1]}
-
-	err := test(gmClient)
+	//	gmClient := &Client{remoteHost: os.Args[1]}
+	gmClient, err := NewClient(os.Args[1])
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
+	_ = gmClient
+	//	err = test(&gmClient)
+	//if err != nil {
+	//log.Fatal(err)
+	//}
+
 }

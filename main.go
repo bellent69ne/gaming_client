@@ -2,27 +2,32 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 )
 
 func main() {
 	if len(os.Args) != 2 {
-		log.Fatal("the web server address is expected as an argument")
+		fmt.Println("the web server address is expected as an argument")
+		os.Exit(1)
 	}
 
-	//	id, err := register()
-	//if err != nil {
-	//log.Fatal(err)
-	//}
-
-	//gamer, err := take()
-	//if err != nil {
-	//log.Fatal(err)
-	//}
-	gamer, err := fund()
+	id, err := register()
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Couldn't register new user")
+		os.Exit(1)
+	}
+	fmt.Println(id)
+
+	gamer, err := take()
+	if err != nil {
+		fmt.Println("Failed taking points from users balance")
+		os.Exit(1)
+	}
+	fmt.Println(gamer)
+	gamer, err = fund()
+	if err != nil {
+		fmt.Println("Failed funding points to users balance")
+		os.Exit(1)
 	}
 	fmt.Println(gamer)
 

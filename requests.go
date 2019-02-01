@@ -19,7 +19,7 @@ type ID struct {
 func register() (id ID, err error) {
 	regURL := os.Args[1] + "/user/register"
 	body := map[string]interface{}{
-		"name":    "stalkr",
+		"name":    "stalker",
 		"balance": 1000,
 	}
 

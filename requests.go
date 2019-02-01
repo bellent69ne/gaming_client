@@ -3,9 +3,15 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"os"
 )
+
+// Client is a struct that implements
+// client side logic
+type Client struct {
+	remoteHost string
+}
 
 // ID holds information about users ID
 // Used to deserialize json string which holds
@@ -14,13 +20,13 @@ type ID struct {
 	Val int `json:"id"`
 }
 
-// register - sends register POST message and gets
+// Register - sends register POST message and gets
 // id of new user
-func register() (id ID, err error) {
-	regURL := os.Args[1] + "/user/register"
+func (cl *Client) Register(gm User) (id ID, err error) {
+	regURL := cl.remoteHost + "/user/register"
 	body := map[string]interface{}{
-		"name":    "stalker",
-		"balance": 1000,
+		"name":    gm.Name,
+		"balance": gm.Balance,
 	}
 
 	encodedBody, err := json.Marshal(body)
@@ -47,11 +53,15 @@ type User struct {
 	Balance int    `json:"balance"`
 }
 
-// take - takes points from users balance
-func take() (gamer User, err error) {
-	takeURL := os.Args[1] + "/user/1/take"
+func (cl *Client) path(id int, operation string) string {
+	return fmt.Sprintf("/user/%d/%s", id, operation)
+}
+
+// Take - takes points from users balance
+func (cl *Client) Take(id, points int) (gamer User, err error) {
+	takeURL := cl.remoteHost + cl.path(id, "take")
 	body := map[string]interface{}{
-		"points": 300,
+		"points": points,
 	}
 
 	encodedBody, err := json.Marshal(body)
@@ -72,11 +82,11 @@ func take() (gamer User, err error) {
 	return gamer, nil
 }
 
-// fund - funds points to users balance
-func fund() (gamer User, err error) {
-	fundURL := os.Args[1] + "/user/1/fund"
+// Fund - funds points to users balance
+func (cl *Client) Fund(id, points int) (gamer User, err error) {
+	fundURL := cl.remoteHost + cl.path(id, "fund")
 	body := map[string]interface{}{
-		"points": 400,
+		"points": points,
 	}
 
 	encodedBody, err := json.Marshal(body)

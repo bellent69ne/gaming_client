@@ -11,24 +11,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	id, err := register()
-	if err != nil {
-		fmt.Println("Couldn't register new user")
-		os.Exit(1)
-	}
-	fmt.Println(id)
+	gmClient := &Client{os.Args[1]}
 
-	gamer, err := take()
+	err := test(gmClient)
 	if err != nil {
-		fmt.Println("Failed taking points from users balance")
+		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println(gamer)
-	gamer, err = fund()
-	if err != nil {
-		fmt.Println("Failed funding points to users balance")
-		os.Exit(1)
-	}
-	fmt.Println(gamer)
-
 }

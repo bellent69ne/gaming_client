@@ -15,10 +15,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	_ = gmClient
-	//	err = test(&gmClient)
-	//if err != nil {
-	//log.Fatal(err)
-	//}
+	err = test(&gmClient)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
